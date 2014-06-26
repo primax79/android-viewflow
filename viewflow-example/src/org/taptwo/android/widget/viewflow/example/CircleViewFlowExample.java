@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Patrik Åkerfeldt
+ * Copyright (C) 2011 Patrik ÔøΩkerfeldt
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,11 @@ public class CircleViewFlowExample extends Activity {
 		CircleFlowIndicator indic = (CircleFlowIndicator) findViewById(R.id.viewflowindic);
 		viewFlow.setFlowIndicator(indic);
 	}
-	/* If your min SDK version is < 8 you need to trigger the onConfigurationChanged in ViewFlow manually, like this */	
+
+	/*
+	 * If your min SDK version is < 8 you need to trigger the
+	 * onConfigurationChanged in ViewFlow manually, like this
+	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);

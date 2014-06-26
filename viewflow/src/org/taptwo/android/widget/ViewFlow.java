@@ -68,8 +68,12 @@ public class ViewFlow extends AdapterView<Adapter> {
 	private AdapterDataSetObserver mDataSetObserver;
 	private FlowIndicator mIndicator;
 	private int mLastOrientation = -1;
-	/** Extra return value from obtainView: tells you whether the item it returned on the last call was recycled rather than created by the adapter.
-	 * This is a member because getting a second return value requires an allocation. */
+	/**
+	 * Extra return value from obtainView: tells you whether the item it
+	 * returned on the last call was recycled rather than created by the
+	 * adapter. This is a member because getting a second return value requires
+	 * an allocation.
+	 */
 	private boolean mLastObtainedViewWasRecycled = false;
 
 	private OnGlobalLayoutListener orientationChangeListener = new OnGlobalLayoutListener() {
@@ -91,9 +95,10 @@ public class ViewFlow extends AdapterView<Adapter> {
 		 * This method is called when a new View has been scrolled to.
 		 * 
 		 * @param view
-		 *			  the {@link View} currently in focus.
+		 *            the {@link View} currently in focus.
 		 * @param position
-		 *			  The position in the adapter of the {@link View} currently in focus.
+		 *            The position in the adapter of the {@link View} currently
+		 *            in focus.
 		 */
 		void onSwitched(View view, int position);
 
@@ -140,7 +145,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 	public void onConfigurationChanged(Configuration newConfig) {
 		if (newConfig.orientation != mLastOrientation) {
 			mLastOrientation = newConfig.orientation;
-			getViewTreeObserver().addOnGlobalLayoutListener(orientationChangeListener);
+			getViewTreeObserver().addOnGlobalLayoutListener(
+					orientationChangeListener);
 		}
 	}
 
@@ -173,41 +179,43 @@ public class ViewFlow extends AdapterView<Adapter> {
 		}
 
 		switch (widthMode) {
-			case MeasureSpec.UNSPECIFIED:
-				widthSize = childWidth + widthPadding;
-				break;
-			case MeasureSpec.AT_MOST:
-				widthSize = (childWidth + widthPadding) | childState;
-				break;
-			case MeasureSpec.EXACTLY:
-				if (widthSize < childWidth + widthPadding)
-					widthSize |= MEASURED_STATE_TOO_SMALL;
-				break;
+		case MeasureSpec.UNSPECIFIED:
+			widthSize = childWidth + widthPadding;
+			break;
+		case MeasureSpec.AT_MOST:
+			widthSize = (childWidth + widthPadding) | childState;
+			break;
+		case MeasureSpec.EXACTLY:
+			if (widthSize < childWidth + widthPadding)
+				widthSize |= MEASURED_STATE_TOO_SMALL;
+			break;
 		}
 		switch (heightMode) {
-			case MeasureSpec.UNSPECIFIED:
-				heightSize = childHeight + heightPadding;
-				break;
-			case MeasureSpec.AT_MOST:
-				heightSize = (childHeight + heightPadding) | (childState >> MEASURED_HEIGHT_STATE_SHIFT);
-				break;
-			case MeasureSpec.EXACTLY:
-				if (heightSize < childHeight + heightPadding)
-					heightSize |= MEASURED_STATE_TOO_SMALL;
-				break;
+		case MeasureSpec.UNSPECIFIED:
+			heightSize = childHeight + heightPadding;
+			break;
+		case MeasureSpec.AT_MOST:
+			heightSize = (childHeight + heightPadding)
+					| (childState >> MEASURED_HEIGHT_STATE_SHIFT);
+			break;
+		case MeasureSpec.EXACTLY:
+			if (heightSize < childHeight + heightPadding)
+				heightSize |= MEASURED_STATE_TOO_SMALL;
+			break;
 		}
 
 		if (heightMode == MeasureSpec.UNSPECIFIED) {
 			heightSize = heightPadding + childHeight;
 		} else {
-			heightSize |= (childState&MEASURED_STATE_MASK);
+			heightSize |= (childState & MEASURED_STATE_MASK);
 		}
 
 		setMeasuredDimension(widthSize, heightSize);
 	}
 
 	private int getWidthPadding() {
-		return getPaddingLeft() + getPaddingRight() + getHorizontalFadingEdgeLength() * 2;
+		return getPaddingLeft() + getPaddingRight()
+				+ getHorizontalFadingEdgeLength() * 2;
 	}
 
 	public int getChildWidth() {
@@ -222,14 +230,16 @@ public class ViewFlow extends AdapterView<Adapter> {
 		return getHeight() - getHeightPadding();
 	}
 
-	@Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 
 		final int count = getChildCount();
-		for (int i = 0; i < count ; ++i) {
+		for (int i = 0; i < count; ++i) {
 			final View child = getChildAt(i);
-			child.measure(MeasureSpec.makeMeasureSpec(getChildWidth(), MeasureSpec.EXACTLY),
-					MeasureSpec.makeMeasureSpec(getChildHeight(), MeasureSpec.EXACTLY));
+			child.measure(MeasureSpec.makeMeasureSpec(getChildWidth(),
+					MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(
+					getChildHeight(), MeasureSpec.EXACTLY));
 		}
 
 		if (mFirstLayout) {
@@ -247,27 +257,32 @@ public class ViewFlow extends AdapterView<Adapter> {
 			final View child = getChildAt(i);
 			if (child.getVisibility() != View.GONE) {
 				final int childWidth = child.getMeasuredWidth();
-				child.layout(childLeft, getPaddingTop(), childLeft + childWidth,
+				child.layout(childLeft, getPaddingTop(),
+						childLeft + childWidth,
 						getPaddingTop() + child.getMeasuredHeight());
 				childLeft += childWidth;
 			}
 		}
 	}
 
-	@Override protected float getTopFadingEdgeStrength() {
+	@Override
+	protected float getTopFadingEdgeStrength() {
 		return 0.0f;
 	}
 
-	@Override protected float getBottomFadingEdgeStrength() {
+	@Override
+	protected float getBottomFadingEdgeStrength() {
 		return 0.0f;
 	}
 
-	@Override protected float getLeftFadingEdgeStrength() {
+	@Override
+	protected float getLeftFadingEdgeStrength() {
 		// always do the fading edge
 		return 1.0f;
 	}
 
-	@Override protected float getRightFadingEdgeStrength() {
+	@Override
+	protected float getRightFadingEdgeStrength() {
 		// always do the fading edge
 		return 1.0f;
 	}
@@ -329,8 +344,10 @@ public class ViewFlow extends AdapterView<Adapter> {
 				} else if (deltaX > 0) {
 					final int availableToScroll = getChildAt(
 							getChildCount() - 1).getRight()
-							- getPaddingRight() - getHorizontalFadingEdgeLength()
-							- scrollX - getWidth();
+							- getPaddingRight()
+							- getHorizontalFadingEdgeLength()
+							- scrollX
+							- getWidth();
 					if (availableToScroll > 0) {
 						scrollBy(Math.min(availableToScroll, deltaX), 0);
 					}
@@ -428,8 +445,10 @@ public class ViewFlow extends AdapterView<Adapter> {
 				} else if (deltaX > 0) {
 					final int availableToScroll = getChildAt(
 							getChildCount() - 1).getRight()
-							- getPaddingRight() - getHorizontalFadingEdgeLength()
-							- scrollX - getChildWidth();
+							- getPaddingRight()
+							- getHorizontalFadingEdgeLength()
+							- scrollX
+							- getChildWidth();
 					if (availableToScroll > 0) {
 						scrollBy(Math.min(availableToScroll, deltaX), 0);
 					}
@@ -475,14 +494,18 @@ public class ViewFlow extends AdapterView<Adapter> {
 		if (direction > 0) {
 			if (mLazyInit.contains(LazyInit.RIGHT)) {
 				mLazyInit.remove(LazyInit.RIGHT);
-				if (mCurrentBufferIndex+1 < mLoadedViews.size())
-					mViewInitializeListener.onViewLazyInitialize(mLoadedViews.get(mCurrentBufferIndex + 1), mCurrentAdapterIndex + 1);
+				if (mCurrentBufferIndex + 1 < mLoadedViews.size())
+					mViewInitializeListener.onViewLazyInitialize(
+							mLoadedViews.get(mCurrentBufferIndex + 1),
+							mCurrentAdapterIndex + 1);
 			}
 		} else {
 			if (mLazyInit.contains(LazyInit.LEFT)) {
 				mLazyInit.remove(LazyInit.LEFT);
 				if (mCurrentBufferIndex > 0)
-					mViewInitializeListener.onViewLazyInitialize(mLoadedViews.get(mCurrentBufferIndex - 1), mCurrentAdapterIndex - 1);
+					mViewInitializeListener.onViewLazyInitialize(
+							mLoadedViews.get(mCurrentBufferIndex - 1),
+							mCurrentAdapterIndex - 1);
 			}
 		}
 	}
@@ -535,7 +558,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 					Math.min(mNextScreen, getChildCount() - 1));
 			mNextScreen = INVALID_SCREEN;
 			post(new Runnable() {
-				@Override public void run() {
+				@Override
+				public void run() {
 					postViewSwitched(mLastScrollDirection);
 				}
 			});
@@ -546,7 +570,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 	 * Scroll to the {@link View} in the view buffer specified by the index.
 	 * 
 	 * @param indexInBuffer
-	 *			  Index of the view in the view buffer.
+	 *            Index of the view in the view buffer.
 	 */
 	private void setVisibleView(int indexInBuffer, boolean uiThread) {
 		mCurrentScreen = Math.max(0,
@@ -554,8 +578,9 @@ public class ViewFlow extends AdapterView<Adapter> {
 		int dx = (mCurrentScreen * getChildWidth()) - mScroller.getCurrX();
 		mScroller.startScroll(mScroller.getCurrX(), mScroller.getCurrY(), dx,
 				0, 0);
-		if(dx == 0)
-			onScrollChanged(mScroller.getCurrX() + dx, mScroller.getCurrY(), mScroller.getCurrX() + dx, mScroller.getCurrY());
+		if (dx == 0)
+			onScrollChanged(mScroller.getCurrX() + dx, mScroller.getCurrY(),
+					mScroller.getCurrX() + dx, mScroller.getCurrY());
 		if (uiThread)
 			invalidate();
 		else
@@ -567,7 +592,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 	 * ViewFlow} scrolls.
 	 * 
 	 * @param l
-	 *			  the scroll listener
+	 *            the scroll listener
 	 */
 	public void setOnViewSwitchListener(ViewSwitchListener l) {
 		mViewSwitchListener = l;
@@ -586,7 +611,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 	public void setAdapter(Adapter adapter) {
 		setAdapter(adapter, 0);
 	}
-	
+
 	public void setAdapter(Adapter adapter, int initialPosition) {
 		if (mAdapter != null) {
 			mAdapter.unregisterDataSetObserver(mDataSetObserver);
@@ -601,10 +626,10 @@ public class ViewFlow extends AdapterView<Adapter> {
 		}
 		if (mAdapter == null || mAdapter.getCount() == 0)
 			return;
-		
-		setSelection(initialPosition);		
+
+		setSelection(initialPosition);
 	}
-	
+
 	@Override
 	public View getSelectedView() {
 		return (mCurrentBufferIndex < mLoadedViews.size() ? mLoadedViews
@@ -648,9 +673,9 @@ public class ViewFlow extends AdapterView<Adapter> {
 		mScroller.forceFinished(true);
 		if (mAdapter == null)
 			return;
-		
+
 		position = Math.max(position, 0);
-		position = Math.min(position, mAdapter.getCount()-1);
+		position = Math.min(position, mAdapter.getCount() - 1);
 
 		recycleViews();
 
@@ -660,12 +685,12 @@ public class ViewFlow extends AdapterView<Adapter> {
 		if (mViewInitializeListener != null)
 			mViewInitializeListener.onViewLazyInitialize(currentView, position);
 
-		for(int offset = 1; mSideBuffer - offset >= 0; offset++) {
+		for (int offset = 1; mSideBuffer - offset >= 0; offset++) {
 			int leftIndex = position - offset;
 			int rightIndex = position + offset;
-			if(leftIndex >= 0)
+			if (leftIndex >= 0)
 				mLoadedViews.addFirst(makeAndAddView(leftIndex, false));
-			if(rightIndex < mAdapter.getCount())
+			if (rightIndex < mAdapter.getCount())
 				mLoadedViews.addLast(makeAndAddView(rightIndex, true));
 		}
 
@@ -695,7 +720,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 			if (i == mCurrentAdapterIndex) {
 				mCurrentBufferIndex = mLoadedViews.size() - 1;
 				if (mViewInitializeListener != null)
-					mViewInitializeListener.onViewLazyInitialize(mLoadedViews.getLast(), mCurrentAdapterIndex);
+					mViewInitializeListener.onViewLazyInitialize(
+							mLoadedViews.getLast(), mCurrentAdapterIndex);
 			}
 		}
 		logBuffer();
@@ -757,17 +783,22 @@ public class ViewFlow extends AdapterView<Adapter> {
 		logBuffer();
 	}
 
-	@Override protected void measureChild(View child, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
+	@Override
+	protected void measureChild(View child, int parentWidthMeasureSpec,
+			int parentHeightMeasureSpec) {
 		LayoutParams lp = child.getLayoutParams();
-		final int childWidthSpec = getChildMeasureSpec(parentWidthMeasureSpec, getWidthPadding(), lp.width);
-		final int childHeightSpec = getChildMeasureSpec(parentHeightMeasureSpec, getHeightPadding(), lp.height);
+		final int childWidthSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+				getWidthPadding(), lp.width);
+		final int childHeightSpec = getChildMeasureSpec(
+				parentHeightMeasureSpec, getHeightPadding(), lp.height);
 		child.measure(childWidthSpec, childHeightSpec);
 	}
 
 	private View setupChild(View child, boolean addToEnd, boolean recycle) {
 		final LayoutParams lp = child.getLayoutParams();
-		child.measure(MeasureSpec.makeMeasureSpec(getChildWidth(), MeasureSpec.EXACTLY),
-				MeasureSpec.makeMeasureSpec(getChildHeight(), MeasureSpec.EXACTLY));
+		child.measure(MeasureSpec.makeMeasureSpec(getChildWidth(),
+				MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(
+				getChildHeight(), MeasureSpec.EXACTLY));
 		if (recycle)
 			attachViewToParent(child, (addToEnd ? -1 : 0), lp);
 		else
@@ -783,12 +814,13 @@ public class ViewFlow extends AdapterView<Adapter> {
 	private View obtainView(int position) {
 		View convertView = getRecycledView();
 		View view = mAdapter.getView(position, convertView, this);
-		if(view != convertView && convertView != null)
+		if (view != convertView && convertView != null)
 			mRecycledViews.add(convertView);
 		mLastObtainedViewWasRecycled = (view == convertView);
 		ViewGroup.LayoutParams p = view.getLayoutParams();
 		if (p == null) {
-			p = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+			p = new LayoutParams(LayoutParams.FILL_PARENT,
+					LayoutParams.FILL_PARENT);
 			view.setLayoutParams(p);
 		}
 		return view;
@@ -819,9 +851,11 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 	private void logBuffer() {
 
-		Log.d("viewflow", "Size of mLoadedViews: " + mLoadedViews.size() +
-				", Size of mRecycledViews: " + mRecycledViews.size() +
-				", X: " + mScroller.getCurrX() + ", Y: " + mScroller.getCurrY());
+		Log.d("viewflow",
+				"Size of mLoadedViews: " + mLoadedViews.size()
+						+ ", Size of mRecycledViews: " + mRecycledViews.size()
+						+ ", X: " + mScroller.getCurrX() + ", Y: "
+						+ mScroller.getCurrY());
 		Log.d("viewflow", "IndexInAdapter: " + mCurrentAdapterIndex
 				+ ", IndexInBuffer: " + mCurrentBufferIndex);
 	}

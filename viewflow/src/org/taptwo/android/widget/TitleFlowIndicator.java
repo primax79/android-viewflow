@@ -77,7 +77,8 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 	 */
 	public TitleFlowIndicator(Context context) {
 		super(context);
-		initDraw(TEXT_COLOR, TEXT_SIZE, SELECTED_COLOR, SELECTED_BOLD, TEXT_SIZE, FOOTER_LINE_HEIGHT, FOOTER_COLOR);
+		initDraw(TEXT_COLOR, TEXT_SIZE, SELECTED_COLOR, SELECTED_BOLD,
+				TEXT_SIZE, FOOTER_LINE_HEIGHT, FOOTER_COLOR);
 	}
 
 	/**
@@ -90,26 +91,44 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 		super(context, attrs);
 		// Retrieve styles attributs
 
-		int typefaceIndex = attrs.getAttributeIntValue("http://schemas.android.com/apk/res/android", "typeface", 0);
-		int textStyleIndex = attrs.getAttributeIntValue("http://schemas.android.com/apk/res/android", "textStyle", 0);
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitleFlowIndicator);
+		int typefaceIndex = attrs.getAttributeIntValue(
+				"http://schemas.android.com/apk/res/android", "typeface", 0);
+		int textStyleIndex = attrs.getAttributeIntValue(
+				"http://schemas.android.com/apk/res/android", "textStyle", 0);
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.TitleFlowIndicator);
 
-		String customTypeface = a.getString(R.styleable.TitleFlowIndicator_customTypeface);
+		String customTypeface = a
+				.getString(R.styleable.TitleFlowIndicator_customTypeface);
 		// Retrieve the colors to be used for this view and apply them.
-		int footerColor = a.getColor(R.styleable.TitleFlowIndicator_footerColor, FOOTER_COLOR);
-		footerLineHeight = a.getDimension(R.styleable.TitleFlowIndicator_footerLineHeight, FOOTER_LINE_HEIGHT);
-		footerTriangleHeight = a.getDimension(R.styleable.TitleFlowIndicator_footerTriangleHeight, FOOTER_TRIANGLE_HEIGHT);
-		int selectedColor = a.getColor(R.styleable.TitleFlowIndicator_selectedColor, SELECTED_COLOR);
-		boolean selectedBold = a.getBoolean(R.styleable.TitleFlowIndicator_selectedBold, SELECTED_BOLD);
-		int textColor = a.getColor(R.styleable.TitleFlowIndicator_textColor, TEXT_COLOR);
-		float textSize = a.getDimension(R.styleable.TitleFlowIndicator_textSize, TEXT_SIZE);
-		float selectedSize = a.getDimension(R.styleable.TitleFlowIndicator_selectedSize, textSize);
-		titlePadding = a.getDimension(R.styleable.TitleFlowIndicator_titlePadding, TITLE_PADDING);
-		clipPadding = a.getDimension(R.styleable.TitleFlowIndicator_clipPadding, CLIP_PADDING);
-		initDraw(textColor, textSize, selectedColor, selectedBold, selectedSize, footerLineHeight, footerColor);
+		int footerColor = a.getColor(
+				R.styleable.TitleFlowIndicator_footerColor, FOOTER_COLOR);
+		footerLineHeight = a.getDimension(
+				R.styleable.TitleFlowIndicator_footerLineHeight,
+				FOOTER_LINE_HEIGHT);
+		footerTriangleHeight = a.getDimension(
+				R.styleable.TitleFlowIndicator_footerTriangleHeight,
+				FOOTER_TRIANGLE_HEIGHT);
+		int selectedColor = a.getColor(
+				R.styleable.TitleFlowIndicator_selectedColor, SELECTED_COLOR);
+		boolean selectedBold = a.getBoolean(
+				R.styleable.TitleFlowIndicator_selectedBold, SELECTED_BOLD);
+		int textColor = a.getColor(R.styleable.TitleFlowIndicator_textColor,
+				TEXT_COLOR);
+		float textSize = a.getDimension(
+				R.styleable.TitleFlowIndicator_textSize, TEXT_SIZE);
+		float selectedSize = a.getDimension(
+				R.styleable.TitleFlowIndicator_selectedSize, textSize);
+		titlePadding = a.getDimension(
+				R.styleable.TitleFlowIndicator_titlePadding, TITLE_PADDING);
+		clipPadding = a.getDimension(
+				R.styleable.TitleFlowIndicator_clipPadding, CLIP_PADDING);
+		initDraw(textColor, textSize, selectedColor, selectedBold,
+				selectedSize, footerLineHeight, footerColor);
 
 		if (customTypeface != null)
-			typeface = Typeface.createFromAsset(context.getAssets(), customTypeface);
+			typeface = Typeface.createFromAsset(context.getAssets(),
+					customTypeface);
 		else
 			typeface = getTypefaceByIndex(typefaceIndex);
 		typeface = Typeface.create(typeface, textStyleIndex);
@@ -119,7 +138,9 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 	/**
 	 * Initialize draw objects
 	 */
-	private void initDraw(int textColor, float textSize, int selectedColor, boolean selectedBold, float selectedSize, float footerLineHeight, int footerColor) {
+	private void initDraw(int textColor, float textSize, int selectedColor,
+			boolean selectedBold, float selectedSize, float footerLineHeight,
+			int footerColor) {
 		paintText = new Paint();
 		paintText.setColor(textColor);
 		paintText.setTextSize(textSize);
@@ -151,7 +172,8 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 		ArrayList<Rect> bounds = calculateAllBounds(paintText);
 
 		// If no value then add a fake one
-		int count = (viewFlow != null && viewFlow.getAdapter() != null) ? viewFlow.getAdapter().getCount() : 1;
+		int count = (viewFlow != null && viewFlow.getAdapter() != null) ? viewFlow
+				.getAdapter().getCount() : 1;
 
 		// Verify if the current view must be clipped to the screen
 		Rect curViewBound = bounds.get(currentPosition);
@@ -179,7 +201,8 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 						Rect rightBound = bounds.get(iLoop + 1);
 						// Intersection
 						if (bound.right + TITLE_PADDING > rightBound.left) {
-							bound.left = rightBound.left - (w + (int) titlePadding);
+							bound.left = rightBound.left
+									- (w + (int) titlePadding);
 						}
 					}
 				}
@@ -212,7 +235,9 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 			String title = getTitle(iLoop);
 			Rect bound = bounds.get(iLoop);
 			// Only if one side is visible
-			if ((bound.left > getLeft() && bound.left < getLeft() + getWidth()) || (bound.right > getLeft() && bound.right < getLeft() + getWidth())) {
+			if ((bound.left > getLeft() && bound.left < getLeft() + getWidth())
+					|| (bound.right > getLeft() && bound.right < getLeft()
+							+ getWidth())) {
 				Paint paint = paintText;
 				// Change the color is the title is closed to the center
 				int middle = (bound.left + bound.right) / 2;
@@ -227,16 +252,20 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 		// Draw the footer line
 		path = new Path();
 		int coordY = getHeight() - 1;
-		coordY -= (footerLineHeight % 2 == 1) ? footerLineHeight / 2 : footerLineHeight / 2 - 1;
+		coordY -= (footerLineHeight % 2 == 1) ? footerLineHeight / 2
+				: footerLineHeight / 2 - 1;
 		path.moveTo(0, coordY);
 		path.lineTo(getWidth(), coordY);
 		path.close();
 		canvas.drawPath(path, paintFooterLine);
 		// Draw the footer triangle
 		path = new Path();
-		path.moveTo(getWidth() / 2, getHeight() - footerLineHeight - footerTriangleHeight);
-		path.lineTo(getWidth() / 2 + footerTriangleHeight, getHeight() - footerLineHeight);
-		path.lineTo(getWidth() / 2 - footerTriangleHeight, getHeight() - footerLineHeight);
+		path.moveTo(getWidth() / 2, getHeight() - footerLineHeight
+				- footerTriangleHeight);
+		path.lineTo(getWidth() / 2 + footerTriangleHeight, getHeight()
+				- footerLineHeight);
+		path.lineTo(getWidth() / 2 - footerTriangleHeight, getHeight()
+				- footerLineHeight);
 		path.close();
 		canvas.drawPath(path, paintFooterTriangle);
 
@@ -278,12 +307,14 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 	private ArrayList<Rect> calculateAllBounds(Paint paint) {
 		ArrayList<Rect> list = new ArrayList<Rect>();
 		// For each views (If no values then add a fake one)
-		int count = (viewFlow != null && viewFlow.getAdapter() != null) ? viewFlow.getAdapter().getCount() : 1;
+		int count = (viewFlow != null && viewFlow.getAdapter() != null) ? viewFlow
+				.getAdapter().getCount() : 1;
 		for (int iLoop = 0; iLoop < count; iLoop++) {
 			Rect bounds = calcBounds(iLoop, paint);
 			int w = (bounds.right - bounds.left);
 			int h = (bounds.bottom - bounds.top);
-			bounds.left = (getWidth() / 2) - (w / 2) - currentScroll + (iLoop * getWidth());
+			bounds.left = (getWidth() / 2) - (w / 2) - currentScroll
+					+ (iLoop * getWidth());
 			bounds.right = bounds.left + w;
 			bounds.top = 0;
 			bounds.bottom = h;
@@ -381,7 +412,8 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 	 */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
+		setMeasuredDimension(measureWidth(widthMeasureSpec),
+				measureHeight(heightMeasureSpec));
 	}
 
 	/**
@@ -397,7 +429,8 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 		int specSize = MeasureSpec.getSize(measureSpec);
 
 		if (specMode != MeasureSpec.EXACTLY) {
-			throw new IllegalStateException("ViewFlow can only be used in EXACTLY mode.");
+			throw new IllegalStateException(
+					"ViewFlow can only be used in EXACTLY mode.");
 		}
 		result = specSize;
 		return result;
@@ -424,7 +457,8 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
 			// Calculate the text bounds
 			Rect bounds = new Rect();
 			bounds.bottom = (int) (paintText.descent() - paintText.ascent());
-			result = bounds.bottom - bounds.top + (int) footerTriangleHeight + (int) footerLineHeight + 10;
+			result = bounds.bottom - bounds.top + (int) footerTriangleHeight
+					+ (int) footerLineHeight + 10;
 			return result;
 		}
 		return result;

@@ -29,34 +29,31 @@ import android.view.animation.AnimationUtils;
 import org.taptwo.android.widget.viewflow.R;
 
 /**
- * A FlowIndicator which draws circles (one for each view). 
- * <br/>
+ * A FlowIndicator which draws circles (one for each view). <br/>
  * Available attributes are:<br/>
  * <ul>
  * <li>
- * activeColor: Define the color used to draw the active circle (default to white)
- * </li>
+ * activeColor: Define the color used to draw the active circle (default to
+ * white)</li>
  * <li>
- * inactiveColor: Define the color used to draw the inactive circles (default to 0x44FFFFFF)
- * </li>
+ * inactiveColor: Define the color used to draw the inactive circles (default to
+ * 0x44FFFFFF)</li>
  * <li>
- * inactiveType: Define how to draw the inactive circles, either stroke or fill (default to stroke)
- * </li>
+ * inactiveType: Define how to draw the inactive circles, either stroke or fill
+ * (default to stroke)</li>
  * <li>
- * activeType: Define how to draw the active circle, either stroke or fill (default to fill)
- * </li>
+ * activeType: Define how to draw the active circle, either stroke or fill
+ * (default to fill)</li>
  * <li>
- * fadeOut: Define the time (in ms) until the indicator will fade out (default to 0 = never fade out)
- * </li>
+ * fadeOut: Define the time (in ms) until the indicator will fade out (default
+ * to 0 = never fade out)</li>
  * <li>
- * radius: Define the circle outer radius (default to 4.0)
- * </li>
+ * radius: Define the circle outer radius (default to 4.0)</li>
  * <li>
- * spacing: Define the circle spacing (default to 4.0)
- * </li>
+ * spacing: Define the circle spacing (default to 4.0)</li>
  * <li>
- * snap: If true, the 'active' indicator snaps from one page to the next; otherwise, it moves smoothly.
- * </li>
+ * snap: If true, the 'active' indicator snaps from one page to the next;
+ * otherwise, it moves smoothly.</li>
  * </ul>
  */
 public class CircleFlowIndicator extends View implements FlowIndicator,
@@ -106,9 +103,9 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		// Gets the active circle type, defaulting to "fill"
 		int activeType = a.getInt(R.styleable.CircleFlowIndicator_activeType,
 				STYLE_FILL);
-		
+
 		int activeDefaultColor = 0xFFFFFFFF;
-		
+
 		// Get a custom active color if there is one
 		int activeColor = a
 				.getColor(R.styleable.CircleFlowIndicator_activeColor,
@@ -133,14 +130,15 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		spacing = a.getDimension(R.styleable.CircleFlowIndicator_spacing, 4.0f);
 		// We want the spacing to be center-to-center
 		spacing += 2 * mRadiusActive;
-		
+
 		// Retrieve the fade out time
 		fadeOutTime = a.getInt(R.styleable.CircleFlowIndicator_fadeOut, 0);
-		
-		mCentered = a.getBoolean(R.styleable.CircleFlowIndicator_centered, false);
+
+		mCentered = a.getBoolean(R.styleable.CircleFlowIndicator_centered,
+				false);
 
 		mSnap = a.getBoolean(R.styleable.CircleFlowIndicator_snap, false);
-		
+
 		initColors(activeColor, inactiveColor, activeType, inactiveType);
 	}
 
@@ -191,17 +189,18 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		if (viewFlow != null) {
 			count = viewFlow.getViewsCount();
 		}
-		
-		//this is the amount the first circle should be offset to make the entire thing centered
+
+		// this is the amount the first circle should be offset to make the
+		// entire thing centered
 		float centeringOffset = 0;
-		
+
 		int leftPadding = getPaddingLeft();
-		
+
 		// Draw stroked circles
 		for (int iLoop = 0; iLoop < count; iLoop++) {
-			canvas.drawCircle(leftPadding + mRadius
-					+ (iLoop * spacing) + centeringOffset,
-					getPaddingTop() + mRadius, mRadiusInactive, mPaintInactive);
+			canvas.drawCircle(leftPadding + mRadius + (iLoop * spacing)
+					+ centeringOffset, getPaddingTop() + mRadius,
+					mRadiusInactive, mPaintInactive);
 		}
 		float cx = 0;
 		if (mSnap) {
@@ -211,10 +210,11 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 				// Draw the filled circle according to the current scroll
 				cx = (currentScroll * spacing) / flowWidth;
 			}
-			// else, the flow width hasn't been updated yet. Draw the default position.
+			// else, the flow width hasn't been updated yet. Draw the default
+			// position.
 		}
-		canvas.drawCircle(leftPadding + mRadius + cx+centeringOffset, getPaddingTop()
-				+ mRadius, mRadiusActive, mPaintActive);
+		canvas.drawCircle(leftPadding + mRadius + cx + centeringOffset,
+				getPaddingTop() + mRadius, mRadiusActive, mPaintActive);
 	}
 
 	/*
@@ -281,7 +281,7 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 	 * Determines the width of this view
 	 * 
 	 * @param measureSpec
-	 *			  A measureSpec packed into an int
+	 *            A measureSpec packed into an int
 	 * @return The width of the view, honoring constraints from measureSpec
 	 */
 	private int measureWidth(int measureSpec) {
@@ -315,7 +315,7 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 	 * Determines the height of this view
 	 * 
 	 * @param measureSpec
-	 *			  A measureSpec packed into an int
+	 *            A measureSpec packed into an int
 	 * @return The height of the view, honoring constraints from measureSpec
 	 */
 	private int measureHeight(int measureSpec) {
@@ -343,7 +343,7 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 	 * Sets the fill color
 	 * 
 	 * @param color
-	 *			  ARGB value for the text
+	 *            ARGB value for the text
 	 */
 	public void setFillColor(int color) {
 		mPaintActive.setColor(color);
@@ -354,7 +354,7 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 	 * Sets the stroke color
 	 * 
 	 * @param color
-	 *			  ARGB value for the text
+	 *            ARGB value for the text
 	 */
 	public void setStrokeColor(int color) {
 		mPaintInactive.setColor(color);

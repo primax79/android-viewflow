@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Patrik Åkerfeldt
+ * Copyright (C) 2011 Patrik ÔøΩkerfeldt
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,13 @@ import android.widget.ImageView;
 public class ImageAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
-	private static final int[] ids = { R.drawable.cupcake, R.drawable.donut, R.drawable.eclair, R.drawable.froyo,
-			R.drawable.gingerbread, R.drawable.honeycomb, R.drawable.icecream };
+	private static final int[] ids = { R.drawable.cupcake, R.drawable.donut,
+			R.drawable.eclair, R.drawable.froyo, R.drawable.gingerbread,
+			R.drawable.honeycomb, R.drawable.icecream };
 
 	public ImageAdapter(Context context) {
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -52,7 +54,8 @@ public class ImageAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.image_item, null);
 		}
-		((ImageView) convertView.findViewById(R.id.imgView)).setImageResource(ids[position]);
+		((ImageView) convertView.findViewById(R.id.imgView))
+				.setImageResource(ids[position]);
 		return convertView;
 	}
 
